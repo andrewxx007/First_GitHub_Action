@@ -1,4 +1,4 @@
-name: Hello World and PR Details
+name: Hello World and Pull Request Details
 
 on:
   pull_request:
@@ -7,19 +7,24 @@ on:
       - synchronize
 
 jobs:
-  hello_world_and_pr_details:
+  print_details:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Print Hello World
-      run: echo "Hello World"
-      
-    - name: PR Details
-      run: |
-        echo "Author: ${{ github.event.pull_request.user.login }}"
-        echo "Last Commit: ${{ github.event.pull_request.head.sha }}"
-        echo "Changes between main and PR:"
-        git diff --name-status main...${{ github.event.pull_request.head.ref }}
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Fetch All Branches
+        run: git fetch --all
+
+      - name: Print Hello World
+        run: echo "Hello World!!"
+
+      - name: Pull Request Details
+        run: |
+          echo "Author: ${{ github.event.pull_request.user.login }}"
+          echo "Last Commit: ${{ github.event.pull_request.head.sha }}"
+          echo "Changes between the last commit and default branch:"
+          branch_name="${{ github.event.pull_request.head.ref }}"
+          git checkout origin/"${branch_name}"
+          git diff origin/main
