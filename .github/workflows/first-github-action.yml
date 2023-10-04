@@ -23,7 +23,3 @@ jobs:
         echo "Last Commit: ${{ github.event.pull_request.head.sha }}"
         echo "Changes between main and PR:"
         git diff --name-status main...${{ github.event.pull_request.head.ref }}
-
-        run: |
-          echo "Pull Request Details:"
-          cat pr_details.txt
