@@ -23,10 +23,9 @@ jobs:
           echo "Author: ${{ github.event.pull_request.user.login }}"
           echo "Last Commit: ${{ github.event.pull_request.head.sha }}"
           echo "Changes:"
-          git diff --name-status ${GITHUB_BASE_REF}...${GITHUB_HEAD_REF}
+          git diff --name-status ${GITHUB_BASE_REF}..${GITHUB_HEAD_REF}
 
       - name: Display Pull Request Details
         run: |
           echo "Pull Request Details:"
           cat pr_details.txt
-
