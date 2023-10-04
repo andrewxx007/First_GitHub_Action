@@ -20,4 +20,4 @@ jobs:
           echo "Ultimo commit: ${{ github.event.pull_request.head.sha }}"
           echo "Cambios entre el último commit y el default branch:"
           git fetch origin ${GITHUB_REF#refs/*/}:refs/remotes/origin/${GITHUB_REF#refs/*/}
-          git diff --name-only origin/${GITHUB_REF#refs/*/}...${{ github.event.pull_request.head.sha }}
+          git diff --name-only origin/${GITHUB_REF#refs/*/}...${{ github.event.pull_request.head.sha }} || true
