@@ -1,4 +1,4 @@
-name: Imprimir Detalles del Pull Request
+name: Hello World and Pull Request Details
 
 on:
   pull_request:
@@ -7,19 +7,26 @@ on:
       - synchronize
 
 jobs:
-  print-details:
+  hello_world_and_pull_request_details:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout el repositorio
-      uses: actions/checkout@v2
-      
-    - name: Obtener detalles del Pull Request
-      run: |
-        echo "Hello World"
-        echo "Autor: ${{ github.event.pull_request.user.login }}"
-        echo "Último Commit: ${{ github.event.pull_request.head.sha }}"
-        git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-        changes=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
-        echo "Cambios entre el último commit y la rama principal:"
-        echo "$changes"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print Hello World
+        run: echo "Hello World"
+
+      - name: Get Pull Request Details
+        id: pr_details
+        run: |
+          echo "Author: ${{ github.event.pull_request.user.login }}"
+          echo "Last Commit: ${{ github.event.pull_request.head.sha }}"
+          echo "Changes:"
+          git diff --name-status ${GITHUB_BASE_REF}...${GITHUB_HEAD_REF}
+
+      - name: Display Pull Request Details
+        run: |
+          echo "Pull Request Details:"
+          cat pr_details.txt
+
