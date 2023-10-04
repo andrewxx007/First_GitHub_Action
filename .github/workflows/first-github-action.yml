@@ -1,0 +1,21 @@
+name: First GitHub Action - Hello World
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  print_info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print Pull Request Info
+        run: |
+          echo "Author: ${{ github.event.pull_request.user.login }}"
+          echo "Latest commit: ${{ github.event.pull_request.head.sha }}"
+          echo "Latest commit vs Default branch:"
+          git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
